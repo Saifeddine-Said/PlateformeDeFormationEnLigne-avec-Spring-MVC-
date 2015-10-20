@@ -1,0 +1,142 @@
+* B_A : Gestion des formations : lorsqu'on clique sur une formation on affiche les détails de cette formation :
+            - infos de la formation
+            - liste des modules de cette fomation
+            
+* B_A : La suppression ne fonctionne pas encore.
+
+* B_A : Ajouter une variable dans la methode selectAll() du geberic DAO pour le tri.
+
+
+
+
+
+
+
+    <!-- START row -->
+      <!--<div>
+        <f:form modelAttribute="modelChapitre" class="form-horizontal form-striped panel panel-default" id="formEtape1">
+          <div class="form-group">
+
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-md-4 pr5">
+                  <label class="control-label">Formation</label>
+                  <f:select path="formation.idFormation" items="${formations }" itemLabel="nomFormation" itemValue="idFormation" class="form-control col-sm-4" onchange="loadModuleParFormation();" id="formationSelect" required="required" />
+                </div>
+                <div id="moduleBlock" class="col-md-4 pr5" style="display: none;">
+                  <label class="control-label">Module</label>
+                  <f:select class="form-control col-sm-4" path="module.idModule" id="modulesSelect" onchange="return selectChapitres();">
+                  </f:select>
+                </div>
+                <div id="confirmBlock" class="col-md-4 pr5" style="display: none;">
+                  <label class="control-label">&nbsp;</label>
+                  <button type="submit" class="form-control btn btn-primary col-sm-4" id="btnAfficher" onclick="return afficherChpitresParModule();">Afficher</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </f:form>
+      </div>
+      <div class="">
+        <c:forEach items="${modules.getChapitres() }" var="mods">
+          <div class="">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <i class="ico-flag mr5"></i><span id="nomChapitre${chap.getIdChapitre() }"></span>
+                </h3>
+                <div class="panel-toolbar text-right">
+                  <div class="option">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                        Options <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a class="ico-menu5" href="javascript:void(0);"> Details</a></li>
+                        <c:if test="${mods.getCoordinateur().getIdUtilisateur() == user.getIdUtilisateur()}">
+                          <li><a class="ico-edit" href="<c:url value="/coordinateur/chapitre/ajouter/modifierChapitre?idChapitre=${chap.getIdChapitre() }"/>"> Modifier</a></li>
+                          <li class="divider"></li>
+                          <li><a href="javascript:void(0);" class="ico-remove text-danger"> Supprimer</a></li>
+                        </c:if>
+                      </ul>
+                    </div>
+                    <button class="btn up" data-toggle="panelcollapse">
+                      <i class="arrow"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-collapse pull">
+                <div class="panel-body">
+                  ${mods.getDescriptionModule() }
+                  <c:forEach items="${mods.getChapitres() }" var="chap">
+                    <div class="panel-group" id="accordion${chap.getIdChapitre() }">
+                      <div class="panel panel-minimal">
+                        <div class="panel-heading">
+                          <ul style="list-style: none;">
+                            <li><a data-toggle="collapse" href="<c:url value="/coordinateur/chapitres/chapitre?idChapitre=${chap.getIdChapitre() }" />" class="collapsed text-primary">${chap.getNumChapitre() } - ${chap.getTitreChapitre() } </a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </c:forEach>
+                </div>
+              </div>
+              <div class="indicator">
+                <span class="spinner"></span>
+              </div>
+            </div>
+          </div>
+        </c:forEach>
+        <c:forEach items="${listChapitres }" var="chap">
+
+          <div class="col-md-3">
+            <div class="widget panel panel-default animation" data-toggle="waypoints" data-showanim="slideInLeft" data-hideanim="slideOutRight" data-offset="80%">
+              <div class="panel-body panel-toolbar">
+                <div class="panel-toolbar text-right">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                      Options <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a class="ico-menu5" href="javascript:void(0);"> Details</a></li>
+                      <c:if test="${chap.getModule().getCoordinateur().getIdUtilisateur() == user.getIdUtilisateur()}">
+                        <li><a class="ico-edit" href="<c:url value="/coordinateur/chapitre/ajouter/modifierChapitre?idChapitre=${chap.getIdChapitre() }"/>"> Modifier</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0);" class="ico-remove text-danger"> Supprimer</a></li>
+                      </c:if>
+                    </ul>
+                  </div>
+                </div>
+                <ul class="list-unstyled">
+
+                  <li class="text-center mb15"><a href="modules?id=${chap.getIdChapitre()}&app=${user.getIdUtilisateur()}"><img class="img-rounded img-bordered-primary" src="<c:url value="/photos/photoChapitre" />" alt="" width="100px" height="100px" /></a></li>
+                  <li class="text-center mb10">
+                    <h4 class="semibold ellipsis nm">
+                      <span class="text-primary"><a href="modules?id=${chap.getIdChapitre()}&app=${user.getIdUtilisateur()}">${chap.getTitreChapitre() }</a></span>
+                    </h4>
+                    <p class="text-muted nm">Par ${chap.getModule().getCoordinateur().getNom()} ${chap.getModule().getCoordinateur().getPrenom()}</p>
+                  </li>
+                  <li class="text-center">${chap.getDiscriptionChapitre() }.</li>
+                </ul>
+                   <ul class="list-unstyled">
+                  <li class="text-center">
+                    <button type="button" class="btn btn-primary mb5">Primary</button>
+                  </li>
+                </ul>  
+              </div>
+            </div>
+          </div>
+        </c:forEach>-->
+      </div>
+      <!--/ END row -->
+
+    </div>
+    
+    
+    
+    
+    
+    ------------------------------------------------------------------------------------------
+    
+    

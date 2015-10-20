@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/eLearningDB"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+
+	<bean id="persistenceUnitManger"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+		<property name="defaultDataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="persistenceUnitManger"></property>
+		<property name="persistenceUnitName" value="UP_E_LEARNING"></property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<context:annotation-config></context:annotation-config>
+
+	<!-- Bean utilisateur -->
+	<bean id="daoUtilisateur" class="com.pfe.elearning.dao.utilisateur.UtilisateurDaoImpl"></bean>
+	<bean id="metierUtilisateur"
+		class="com.pfe.elearning.metier.utilisateur.MetierUtilisateurImpl">
+		<property name="dao" ref="daoUtilisateur"></property>
+	</bean>
+	<!-- FIN Bean Utilisateur -->
+
+	<!-- Bean utilisateur -->
+	<bean id="daoApprenant" class="com.pfe.elearning.dao.apprenant.ApprenantDaoAImpl"></bean>
+	<bean id="metierApprenant" class="com.pfe.elearning.metier.apprenant.MetierApprenantImpl">
+		<property name="dao" ref="daoApprenant"></property>
+	</bean>
+	<!-- FIN Bean Utilisateur -->
+
+	<!-- Bean tuteur -->
+	<bean id="daoTuteur" class="com.pfe.elearning.dao.tuteur.TuteurDaoImpl"></bean>
+	<bean id="metierTuteur" class="com.pfe.elearning.metier.tuteur.MetierTuteurImpl">
+		<property name="dao" ref="daoTuteur"></property>
+	</bean>
+	<!-- FIN Bean tuteur -->
+
+	<!-- Bean Concepteur -->
+	<bean id="daoConcepteur" class="com.pfe.elearning.dao.concepteur.ConcepteurDaoImpl"></bean>
+	<bean id="metierConcepteur"
+		class="com.pfe.elearning.metier.concepteur.MetierConecpteurImpl">
+		<property name="dao" ref="daoConcepteur"></property>
+	</bean>
+	<!-- FIN Bean Concepteur -->
+
+	<!-- Bean Coordinateur -->
+	<bean id="daoCoordinateur" class="com.pfe.elearning.dao.coordinateur.CoordinateurDaoImpl"></bean>
+	<bean id="metierCoordinateur"
+		class="com.pfe.elearning.metier.coordinateur.MetierCoordinateurImpl">
+		<property name="dao" ref="daoCoordinateur"></property>
+	</bean>
+	<!-- FIN Bean Coordinateur -->
+
+	<!-- Bean Email -->
+	<bean id="daoEmail" class="com.pfe.elearning.dao.email.EmailDaoImpl"></bean>
+	<bean id="metierEmail" class="com.pfe.elearning.metier.email.MetierEmailImpl">
+		<property name="dao" ref="daoEmail"></property>
+	</bean>
+	<!-- FIN Bean Email -->
+
+	<!-- Bean PieceJointeEmail -->
+	<bean id="daoPieceJointeEmail"
+		class="com.pfe.elearning.dao.pieceJointeEmail.PieceJointeEmailDaoImpl"></bean>
+	<bean id="metierPieceJointeEmail"
+		class="com.pfe.elearning.metier.pieceJointeEmail.MetierPieceJointeEmailImpl">
+		<property name="dao" ref="daoPieceJointeEmail"></property>
+	</bean>
+	<!-- FIN Bean PieceJointeEmail -->
+
+	<!-- Bean Evenement -->
+	<bean id="daoEvenement" class="com.pfe.elearning.dao.evenement.EvenementDaoImpl"></bean>
+	<bean id="metierEvenement" class="com.pfe.elearning.metier.evenement.MetierEvenementImpl">
+		<property name="dao" ref="daoEvenement"></property>
+	</bean>
+	<!-- FIN Bean Evenement -->
+
+	<!-- Bean VisioConference -->
+	<bean id="daoVisioConference"
+		class="com.pfe.elearning.dao.visioConference.VisioConferenceDaoImpl"></bean>
+	<bean id="metierVisioConference"
+		class="com.pfe.elearning.metier.visioConference.MetierVisioConferenceImpl">
+		<property name="dao" ref="daoVisioConference"></property>
+	</bean>
+	<!-- FIN Bean VisioConference -->
+
+	<!-- Bean MessagesChatRoom -->
+	<bean id="daoMessagesChatRoom"
+		class="com.pfe.elearning.dao.messagesChatRoom.MessagesChatRoomDaoImpl"></bean>
+	<bean id="metierMessagesChatRoom"
+		class="com.pfe.elearning.metier.messagesChatRoom.MetierMessagesChatRoomImpl">
+		<property name="dao" ref="daoMessagesChatRoom"></property>
+	</bean>
+	<!-- FIN Bean ChatRoom -->
+
+	<!-- Bean ChatRoom -->
+	<bean id="daoChatRoom" class="com.pfe.elearning.dao.chatRoom.ChatRoomDaoImpl"></bean>
+	<bean id="metierChatRoom" class="com.pfe.elearning.metier.chatRoom.MetierChatRoomImpl">
+		<property name="dao" ref="daoChatRoom"></property>
+	</bean>
+	<!-- FIN Bean ChatRoom -->
+
+	<!-- Bean EspaceUtilisateur -->
+	<bean id="daoEspaceUtilisateur"
+		class="com.pfe.elearning.dao.espaceUtilisateur.EspaceUtilisateurDaoImpl"></bean>
+	<bean id="metierEspaceUtilisateur"
+		class="com.pfe.elearning.metier.espaceUtilisateur.MetierEspaceUtilisateurImpl">
+		<property name="dao" ref="daoEspaceUtilisateur"></property>
+	</bean>
+	<!-- FIN Bean EspaceUtilisateur -->
+
+	<!-- Bean Fichiers -->
+	<bean id="daoFichiers" class="com.pfe.elearning.dao.fichiers.FichiersDaoImpl"></bean>
+	<bean id="metierFichiers" class="com.pfe.elearning.metier.fichiers.MetierFichiersImpl">
+		<property name="dao" ref="daoFichiers"></property>
+	</bean>
+	<!-- FIN Bean Fichiers -->
+
+	<!-- Bean MessagesForum -->
+	<bean id="daoMessagesForum"
+		class="com.pfe.elearning.dao.messagesForum.MessagesForumDaoImpl"></bean>
+	<bean id="metierMessagesForum"
+		class="com.pfe.elearning.metier.messagesForum.MetierMessagesForumImpl">
+		<property name="dao" ref="daoMessagesForum"></property>
+	</bean>
+	<!-- FIN Bean MessagesForum -->
+
+	<!-- Bean PieceJointeForum -->
+	<bean id="daoPieceJointeForum"
+		class="com.pfe.elearning.dao.pieceJointeForum.PieceJointeForumDaoImpl"></bean>
+	<bean id="metierPieceJointeForum"
+		class="com.pfe.elearning.metier.PieceJointeForum.MetierPieceJointeForumImpl">
+		<property name="dao" ref="daoPieceJointeForum"></property>
+	</bean>
+	<!-- FIN Bean PieceJointeForum -->
+
+	<!-- Bean SujetForum -->
+	<bean id="daoSujetForum" class="com.pfe.elearning.dao.sujetForum.SujetForumDaoImpl"></bean>
+	<bean id="metierSujetForum" class="com.pfe.elearning.metier.sujetForum.MetierSujetForum">
+		<property name="dao" ref="daoSujetForum"></property>
+	</bean>
+	<!-- FIN Bean SujetForum -->
+
+	<!-- Bean Reponses -->
+	<bean id="daoReponses" class="com.pfe.elearning.dao.reponses.ReponsesDaoImpl"></bean>
+	<bean id="metierReponses" class="com.pfe.elearning.metier.reponses.MetierReponsesImpl">
+		<property name="dao" ref="daoReponses"></property>
+	</bean>
+	<!-- FIN Bean Reponses -->
+
+	<!-- Bean Questions -->
+	<bean id="daoQuestions" class="com.pfe.elearning.dao.questions.QuestionsDaoImpl"></bean>
+	<bean id="metierQuestions" class="com.pfe.elearning.metier.questions.MetierQuestionsImpl">
+		<property name="dao" ref="daoQuestions"></property>
+	</bean>
+	<!-- FIN Bean Questions -->
+
+	<!-- Bean Formation -->
+	<bean id="daoFormation" class="com.pfe.elearning.dao.formation.FormationDaoImpl"></bean>
+	<bean id="metierFormation" class="com.pfe.elearning.metier.formation.MetierFormationImpl">
+		<property name="dao" ref="daoFormation"></property>
+	</bean>
+	<!-- FIN Bean Formation -->
+
+	<!-- Bean Examen -->
+	<bean id="daoExamen" class="com.pfe.elearning.dao.examen.ExamenDaoImpl"></bean>
+	<bean id="metierExamen" class="com.pfe.elearning.metier.examen.MetierExamenImpl">
+		<property name="dao" ref="daoExamen"></property>
+	</bean>
+	<!-- FIN Bean Examen -->
+
+	<!-- Bean Module -->
+	<bean id="daoModule" class="com.pfe.elearning.dao.module.ModuleDaoImpl"></bean>
+	<bean id="metierModule" class="com.pfe.elearning.metier.module.MetierModuleImpl">
+		<property name="dao" ref="daoModule"></property>
+	</bean>
+	<!-- FIN Bean Module -->
+
+	<!-- Bean Chapitres -->
+	<bean id="daoChapitres" class="com.pfe.elearning.dao.chapitres.ChapitresDaoImpl"></bean>
+	<bean id="metierChapitres" class="com.pfe.elearning.metier.chapitres.MetierChapitres">
+		<property name="dao" ref="daoChapitres"></property>
+	</bean>
+	<!-- FIN Bean Chapitres -->
+
+	<!-- Bean FAQ -->
+	<bean id="daoFAQ" class="com.pfe.elearning.dao.faq.FaqDaoImpl"></bean>
+	<bean id="metierFAQ" class="com.pfe.elearning.metier.faq.MetierFaqImpl">
+		<property name="dao" ref="daoFAQ"></property>
+	</bean>
+	<!-- FIN Bean FAQ -->
+
+	<!-- Bean Ressources -->
+	<bean id="daoRessources" class="com.pfe.elearning.dao.ressources.RessourcesDaoImpl"></bean>
+	<bean id="metierRessources"
+		class="com.pfe.elearning.metier.ressources.MetierRessourcesImpl">
+		<property name="dao" ref="daoRessources"></property>
+	</bean>
+	<!-- FIN Bean Ressources -->
+
+	<!-- Bean ContenuChapitre -->
+	<bean id="daoContenuChapitre"
+		class="com.pfe.elearning.dao.contenuChapitre.ContenuChapitreDaoImpl"></bean>
+	<bean id="metierContenuChapitre"
+		class="com.pfe.elearning.metier.ContenuChapitre.MetierContenuChapitreImpl">
+		<property name="dao" ref="daoContenuChapitre"></property>
+	</bean>
+	<!-- FIN Bean ContenuChapitre -->
+
+
+	<!-- Définition des beans des acteurs -->
+
+	<!-- Bean Acteur concepteur -->
+	<bean id="daoActeurConcepteur"
+		class="com.pfe.elearning.dao.acteurs.concepteur.ActeurConcepteurDaoImpl"></bean>
+	<bean id="metierActeurConcepteur"
+		class="com.pfe.elearning.metier.acteurs.concepteur.MetierActeurConcepteurImpl">
+		<property name="dao" ref="daoActeurConcepteur"></property>
+	</bean>
+	<!-- FIN Bean Acteur concepteur -->
+
+	<!-- Bean Acteur coordinateur -->
+	<bean id="daoActeurCoordinateur"
+		class="com.pfe.elearning.dao.acteurs.coordinateur.ActeurCoordinateurDaoImpl"></bean>
+	<bean id="metierActeurCoordinateur"
+		class="com.pfe.elearning.metier.acteurs.coordinateur.MetierActeurCoordinateurImpl">
+		<property name="dao" ref="daoActeurCoordinateur"></property>
+	</bean>
+	<!-- FIN Bean Acteur coordinateur -->
+
+	<!-- Bean Acteur Tuteur -->
+	<bean id="daoActeurTuteur"
+		class="com.pfe.elearning.dao.acteurs.tuteur.ActeurTuteurDaoImpl"></bean>
+	<bean id="metierActeurTuteur"
+		class="com.pfe.elearning.metier.acteurs.tuteur.MetierActeurTuteurImpl">
+		<property name="dao" ref="daoActeurTuteur"></property>
+	</bean>
+	<!-- FIN Bean Acteur Tuteur -->
+
+	<!-- Bean Acteur Apprenant -->
+	<bean id="daoActeurApprenant"
+		class="com.pfe.elearning.dao.acteurs.apprenant.ActeurApprenantDaoImpl"></bean>
+	<bean id="metierActeurApprenant"
+		class="com.pfe.elearning.metier.acteurs.apprenant.MetierActeurApprenantImpl">
+		<property name="dao" ref="daoActeurApprenant"></property>
+	</bean>
+	<!-- FIN Bean Acteur Apprenant -->
+	
+		<!-- Bean Acteur Internaute -->
+	<bean id="daoActeurInternaute"
+		class="com.pfe.elearning.dao.acteurs.internaute.ActeurInternauteDaoImpl"></bean>
+	<bean id="metierActeurInternaute"
+		class="com.pfe.elearning.metier.acteurs.internaute.MetierActeurInternauteImpl">
+		<property name="dao" ref="daoActeurInternaute"></property>
+	</bean>
+	<!-- FIN Bean Acteur Apprenant -->
+	
+		<!-- Bean Notification -->
+	<bean id="daoNotification"
+		class="com.pfe.elearning.dao.notification.NotificationDaoImpl"></bean>
+	<bean id="metierNotification"
+		class="com.pfe.elearning.metier.notification.MetierNotification">
+		<property name="dao" ref="daoNotification"></property>
+	</bean>
+	<!-- FIN Bean Notification -->
+</beans>
