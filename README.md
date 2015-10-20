@@ -7,5 +7,5 @@ Le but de ce projet est de concevoir et développer une plateforme de formation 
   - Hibernate
   - mySQL
   - Apache Tomcat (version 7)
-  - partie présentation :JSP,HTML5,CSS3,AJAX, JQuery
+  - partie présentation : JSP, HTML5, CSS3, AJAX, JQuery
   
